@@ -1,0 +1,197 @@
+Products.LibertyAuthPlugin Installation
+---------------------------------------
+
+Required softwares
+------------------
+
+- Lasso >= 0.6.3 with Python binding
+  - Website : http://lasso.entrouvert.org/
+  - Debian package : python2.3-lasso (on Sarge) or python-lasso (on Etch/Sid)
+  - PyPi: http://pypi.python.org/pypi/collective.recipe.lasso/0.1
+
+- OpenSSL (command line tool)
+  - Website : http://www.openssl.org/
+  - Debian package : openssl
+
+- PyXML
+  - Website : http://pyxml.sourceforge.net
+  - Debian package : python2.3-xml (on Sarge) or python-xml (on Etch/Sid)
+
+
+Adding an instance of the plugin
+--------------------------------
+
+- First you need to add a Plone Site instance in the root folder.
+- In the Plone Site instance, go to acl_users object
+- In the top-right drop-down list, choose LibertyAuthPlugin and click on the Add button.
+- Give a custom id.
+- Give a custom organisation name.
+- Click on Create button.
+
+Then click on the new object you created to access its further options.
+
+Configuring this Service Provider on an Identity Provider
+---------------------------------------------------------
+
+- Select "Liberty Provider" tab.
+- Here you can get the metadata and public key for this new Service Provider.
+- Use these metadata and key to configure it on an Identity Provider.
+
+Adding a remote Identity Provider
+---------------------------------
+
+- Select "Remote Providers" tab on top of the panel.
+- In sub section "Add a new remote provider",
+- Choose a unique name for IdP.
+- Browse and select the Identity Provider metadata file.
+- Browse and select the Identity Provider public key file (only needed if public key isn't in the metadatas).
+
+Configuring the liberty plugin functions
+----------------------------------------
+
+- Select "Activate" tab.
+- Select Authentication, activate your plugin and move it at first position.
+- Select Challenge, activate your plugin and move it at first position.
+- Select Extraction, activate your plugin and move it at first position.
+
+Configuring Plone portal user actions
+-------------------------------------
+
+- For Plone >= 3.x
+
+    From Plone Site object, choose "portal_actions", then "user" and add the following "CMF action" :
+
+    - add 'signOn' action :
+
+            - id : "sign_on"
+
+            Then click add, and click on the new action name to edit the other properties :
+
+            - title : "Sign on"
+            - url (expression) : "string:${portal_url}/libauth/signOn"
+            - condition : "not:member"
+            - visible : checked
+
+            Then "Save changes".
+
+    - add 'singleLogout' action :
+
+            - id : "sign_out"
+
+            Then click add, and click on the new action name to edit the other properties :
+
+            - title : "Sign out"
+            - url (expression) : "string:${portal_url}/libauth/signOut"
+            - condition : "python:request.SESSION.get('sessionDump') is not None and member"
+            - visible : checked
+
+    Then "Save changes".
+
+- For previous versions of Plone
+
+    From Plone Site object, choose "portal_registration" object and add the following actions :
+
+    - add 'signOn' action :
+        - title : "Sign on"
+        - id : "sign_on"
+        - url (expression) : "string:${portal_url}/libauth/signOn"
+        - condition : "not:member"
+        - permission : "(none)"
+        - category : "user"
+        - visible : checked
+
+    - add 'singleLogout' action :
+        - title : "Sign out"
+        - id : "sign_out"
+        - url (expression) : "string:${portal_url}/libauth/signOut"
+        - condition : "python:request.SESSION.get('sessionDump') is not None and member"
+        - permission : "(none)"
+        - category : "user"
+        - visible : checked
+
+    Then "Save changes".
+
+Adding a user token entry for user (Optional)
+---------------------------------------------
+
+- From portal instance, acl_users, select the liberty plugin
+- Choose "Liberty tokens", from panel options
+- In the "User Tokens" section, choose a user id from the selection and click "Add" button
+- User can now sign on and federate by giving the user token when asked
+
+Accessing your brand new website
+--------------------------------
+
+Let's say your portal name is "MyPlone".
+
+- If you use Debian Sarge or Etch, go to : http://localhost:9673/MyPlone/
+- If you use Debian Lenny or Sid, got to http://localhost:8081/MyPlone/
+- Otherwise go to : http://localhost:8080/MyPlone/
+
+You will see the "sign on" button in the top right menu.
+
+
+
+
+
+
+To install Products.LibertyAuthPlugin into the global Python environment (or a workingenv),
+using a traditional Zope 2 instance, you can do this:
+
+* When you're reading this you have probably already run 
+  ``easy_install Products.LibertyAuthPlugin``. Find out how to install setuptools
+  (and EasyInstall) here:
+  http://peak.telecommunity.com/DevCenter/EasyInstall
+
+* If you are using Zope 2.9 (not 2.10), get `pythonproducts`_ and install it 
+  via::
+
+    python setup.py install --home /path/to/instance
+
+into your Zope instance.
+
+* Create a file called ``Products.LibertyAuthPlugin-configure.zcml`` in the
+  ``/path/to/instance/etc/package-includes`` directory.  The file
+  should only contain this::
+
+    <include package="Products.LibertyAuthPlugin" />
+
+.. _pythonproducts: http://plone.org/products/pythonproducts
+
+
+Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
+recipe to manage your project, you can do this:
+
+* Add ``Products.LibertyAuthPlugin`` to the list of eggs to install, e.g.:
+
+    [buildout]
+    ...
+    eggs =
+        ...
+        Products.LibertyAuthPlugin
+       
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    ...
+    zcml =
+        Products.LibertyAuthPlugin
+      
+* Re-run buildout, e.g. with:
+
+    $ ./bin/buildout
+        
+You can skip the ZCML slug if you are going to explicitly include the package
+from another package's configure.zcml file.
+
+
+Because its top level Python namespace package is called ``Products``, this
+package can also be installed in Zope 2 as an old style **Zope 2 Product**.
+
+For that, move (or symlink) the ``LibertyAuthPlugin`` folder of this project
+(``Products.LibertyAuthPlugin/Products/LibertyAuthPlugin``) into the ``Products`` directory of
+the Zope instance it has to be installed for, and restart the server.
+
+You can also skip the ZCML slug if you install this package the **Zope 2
+Product** way.

@@ -1,0 +1,13 @@
+<dtml-var standard_html_header>
+
+<div class="FormLayout">
+<h3>You don't have an account yet, click on the follow link.</h3>
+<a href="registerFederatedAccount">Federate with a new account</a><br />
+</div>
+
+<div>
+<h3>You already have an account and you want to federate it, click on the follow link.</h3>
+<a href="registerUserToken">Federate with an already existing account</a>
+</div>
+
+<dtml-var standard_html_footer>

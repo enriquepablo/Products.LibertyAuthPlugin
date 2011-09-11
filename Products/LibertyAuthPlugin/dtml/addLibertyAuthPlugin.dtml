@@ -1,0 +1,33 @@
+<dtml-var manage_page_header>
+
+<p class="form-help">
+Create a Liberty Authentication Plugin.
+</p>
+
+<form action="addFunction">
+<table>
+
+  <tr valign="top">
+    <th class="form-label">Id</th>
+    <td><input type="text" name="id" class="form-element"></td>
+  </tr>
+
+  <tr valign="top">
+    <th class="form-label">Organisation Name</th>
+    <td><input type="text" name="organisation_name" size="50" class="form-element"></td>
+  </tr>
+
+  <tr>
+    <th>Generate metadata and keys</th>
+    <td><input type="checkbox" name="generateMetadataAndKeys" checked="on" /></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td><input type="submit" value="Create" class="form-element"></td>
+  </tr>
+
+</table>
+</form>
+
+<dtml-var manage_page_footer>

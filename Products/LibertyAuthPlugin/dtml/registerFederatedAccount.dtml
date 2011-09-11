@@ -1,0 +1,18 @@
+<dtml-var standard_html_header>
+
+<h2>Federate a new local account</h2>
+
+<form action="completeUserFederatedAccount" method="post">
+
+<div class="FormLayout">
+<h3>You need to choose a local user identifier.</h3>
+<label for="userId">User Identifier : </label><input type="text" name="userId" />
+</div>
+
+<div>
+<input type="submit" value="register" />
+</div>
+
+</form>
+
+<dtml-var standard_html_footer>

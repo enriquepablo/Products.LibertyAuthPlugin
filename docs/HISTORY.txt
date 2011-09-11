@@ -1,0 +1,35 @@
+Changelog
+=========
+
+0.5-dev
+-------
+
+    -   forked from svn://labs.libre-entreprise.org/svnroot/libauthplugin/tags/release-0.4.1
+    -   "eggified" for easier handling in buildout based environments
+
+
+0.4.1
+-----
+
+    -   SAML 2.0 SLO from IdP and defederation from IdP
+    -   Fixed saving SP metadata and keys
+
+
+0.4
+---
+
+    -   Tested with Plone 3.1.3 and Zope 2.10.6
+    -   SAML 2.0 support
+    -   Python EGG and Debian package to easy installation
+    -   Easier default installation
+    -   Massive code refactoring to make the whole more modular and more maintainable
+    -   Better error checkings
+
+
+0.1 to 0.3
+----------
+
+    -   First versions of the plugin
+    -   Tested with Plone 2.5 and Zope 2.8.6
+    -   Liberty Alliance ID-FF 1.2 support
+    -   Easy to use administration interface

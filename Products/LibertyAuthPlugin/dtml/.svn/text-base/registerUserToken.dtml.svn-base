@@ -1,0 +1,12 @@
+<dtml-var standard_html_header>
+<h2><dtml-var title_or_id></h2>
+
+<form action="completeUserTokenRegistration" method="post">
+<p>
+  User Token : <input type="text" name="userToken" /><br />
+  <input type="submit" value="Register" />
+</p>
+
+</form>
+
+<dtml-var standard_html_footer>
